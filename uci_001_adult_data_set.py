@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Thu Feb  6 10:44:22 2020
-
-@author: lee1984
-"""
 
 import urllib
 import http
