@@ -11,13 +11,12 @@ import pandas # install pandas by "pip install pandas", or install Anaconda dist
 # data set repository
 # https://archive.ics.uci.edu/ml/datasets/Adult
 
-data_columns_url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.names'
 url_data_train = 'https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data'
 url_data_test = 'https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.test'
 
-def download_file(url, port = 80):
+def download_file(url):
     components = urllib.parse.urlparse(url)
-    conn = http.client.HTTPConnection(components.hostname, port = port)
+    conn = http.client.HTTPConnection(components.hostname, port = components.port)
     conn.request('GET', components.path)
     resp = conn.getresponse()
 
