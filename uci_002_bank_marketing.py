@@ -11,10 +11,9 @@ import pandas # install pandas by "pip install pandas", or install Anaconda dist
 # Warning: the data processing techniques shown below are just for concept explanation, which are not best-proctices
 
 # data set repository
-# https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+%28Diagnostic%29
+# https://archive.ics.uci.edu/ml/datasets/Bank+Marketing
 
 url_data_train = 'https://archive.ics.uci.edu/ml/machine-learning-databases/00222/bank.zip'
-url_data_train = 'http://localhost:5000/static/data_files/bank.zip'
 
 def download_file(url):
     components = urllib.parse.urlparse(url)
