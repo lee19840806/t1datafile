@@ -9,9 +9,9 @@ import pandas # install pandas by "pip install pandas", or install Anaconda dist
 # Warning: the data processing techniques shown below are just for concept explanation, which are not best-proctices
 
 # data set repository
-# https://archive.ics.uci.edu/ml/datasets/Ionosphere
+# https://archive.ics.uci.edu/ml/datasets/Letter+Recognition
 
-url_data_train = 'https://archive.ics.uci.edu/ml/machine-learning-databases/ionosphere/ionosphere.data'
+url_data_train = 'https://archive.ics.uci.edu/ml/machine-learning-databases/letter-recognition/letter-recognition.data'
 
 def download_file(url):
     components = urllib.parse.urlparse(url)
@@ -54,87 +54,53 @@ def download_file(url):
 # download data from UCI Machine Learning Repository
 data_train = download_file(url_data_train)
 
-# target is the original target variable, which will be converted into 0 or 1 later
+# lettr is the original target variable, which will be converted into 0 or 1 later
 columns = [
-    'variable_01',
-    'variable_02',
-    'variable_03',
-    'variable_04',
-    'variable_05',
-    'variable_06',
-    'variable_07',
-    'variable_08',
-    'variable_09',
-    'variable_10',
-    'variable_11',
-    'variable_12',
-    'variable_13',
-    'variable_14',
-    'variable_15',
-    'variable_16',
-    'variable_17',
-    'variable_18',
-    'variable_19',
-    'variable_20',
-    'variable_21',
-    'variable_22',
-    'variable_23',
-    'variable_24',
-    'variable_25',
-    'variable_26',
-    'variable_27',
-    'variable_28',
-    'variable_29',
-    'variable_30',
-    'variable_31',
-    'variable_32',
-    'variable_33',
-    'variable_34',
-    'target']
+    'lettr',
+    'x-box',
+    'y-box',
+    'width',
+    'high ',
+    'onpix',
+    'x-bar',
+    'y-bar',
+    'x2bar',
+    'y2bar',
+    'xybar',
+    'x2ybr',
+    'xy2br',
+    'x-ege',
+    'xegvy',
+    'y-ege',
+    'yegvx']
 
 # convert flat file into pandas dataframe
 df_train = pandas.read_csv(data_train, header = None, names = columns, index_col = False)
 
-# the target variable, 0 = b (bad) and 1 = g (good)
-df_train['target'] = df_train['target'].apply(lambda x: 0 if x == 'b' else 1)
+# the target variable, there are 26 letters (from A to Z)
+# here we set A to 1 and other letters to 0. with this example we merely want to distinguish A from Non-A letters
+df_train['target_lettr'] = df_train['lettr'].apply(lambda x: 1 if x == 'A' else 0)
+df_train = df_train.drop('lettr', axis = 1)
 
 # re-order the columns so that target becomes the first column
 df_train = df_train[[
-    'target',
-    'variable_01',
-    'variable_02',
-    'variable_03',
-    'variable_04',
-    'variable_05',
-    'variable_06',
-    'variable_07',
-    'variable_08',
-    'variable_09',
-    'variable_10',
-    'variable_11',
-    'variable_12',
-    'variable_13',
-    'variable_14',
-    'variable_15',
-    'variable_16',
-    'variable_17',
-    'variable_18',
-    'variable_19',
-    'variable_20',
-    'variable_21',
-    'variable_22',
-    'variable_23',
-    'variable_24',
-    'variable_25',
-    'variable_26',
-    'variable_27',
-    'variable_28',
-    'variable_29',
-    'variable_30',
-    'variable_31',
-    'variable_32',
-    'variable_33',
-    'variable_34']]
+    'target_lettr',
+    'x-box',
+    'y-box',
+    'width',
+    'high ',
+    'onpix',
+    'x-bar',
+    'y-bar',
+    'x2bar',
+    'y2bar',
+    'xybar',
+    'x2ybr',
+    'xy2br',
+    'x-ege',
+    'xegvy',
+    'y-ege',
+    'yegvx']]
 
 # save the dataframe as CSV file, you can zip it, upload it to t1modeler.com, and build a model
-df_train.to_csv('ionosphere.csv', index = False)
+df_train.to_csv('letter_recognition.csv', index = False)
