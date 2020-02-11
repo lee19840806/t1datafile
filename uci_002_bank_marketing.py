@@ -53,6 +53,7 @@ def download_file(url):
     conn.close()
     return io.BytesIO(total)
 
+# download data from UCI Machine Learning Repository
 data_train = download_file(url_data_train)
 
 # unzip the downloaded file, get df_train and df_test
@@ -71,29 +72,16 @@ df_total = pandas.concat([df_train, df_test]).reset_index(drop = True)
 # drop day and month, because they are not appropriate for modeling
 df_total = df_total.drop(['day', 'month'], axis = 1)
 
-# create dummy variables for job, then drop the original job variable
-df_total['job_blue-collar'  ] = df_total['job'].apply(lambda x: 1 if x == 'blue-collar'   else 0)
-df_total['job_management'   ] = df_total['job'].apply(lambda x: 1 if x == 'management'    else 0)
-df_total['job_technician'   ] = df_total['job'].apply(lambda x: 1 if x == 'technician'    else 0)
-df_total['job_admin.'       ] = df_total['job'].apply(lambda x: 1 if x == 'admin.'        else 0)
-df_total['job_services'     ] = df_total['job'].apply(lambda x: 1 if x == 'services'      else 0)
-df_total['job_retired'      ] = df_total['job'].apply(lambda x: 1 if x == 'retired'       else 0)
-df_total['job_self-employed'] = df_total['job'].apply(lambda x: 1 if x == 'self-employed' else 0)
-df_total['job_entrepreneur' ] = df_total['job'].apply(lambda x: 1 if x == 'entrepreneur'  else 0)
-df_total['job_unemployed'   ] = df_total['job'].apply(lambda x: 1 if x == 'unemployed'    else 0)
-df_total['job_housemaid'    ] = df_total['job'].apply(lambda x: 1 if x == 'housemaid'     else 0)
-df_total['job_student'      ] = df_total['job'].apply(lambda x: 1 if x == 'student'       else 0)
-df_total = df_total.drop('job', axis = 1)
-
 # set pdays = -1 to missing, avoid binning -1 with other scalar values when modeling
 df_total['pdays'] = df_total['pdays'].apply(lambda x: numpy.nan if x == -1 else x)
 
 # the target variable, y = 1 (yes) and y = 0 (no)
-df_total['y'] = df_total['y'].apply(lambda x: 1 if x == 'yes' else 0)
+df_total['target_y'] = df_total['y'].apply(lambda x: 1 if x == 'yes' else 0)
+df_total = df_total.drop('y', axis = 1)
 
-# re-order the columns so that y becomes the first column
+# re-order the columns so that target_y becomes the first column
 df_total = df_total[[
-    'y',
+    'target_y',
     'age',
     'marital',
     'education',
@@ -108,17 +96,7 @@ df_total = df_total[[
     'previous',
     'poutcome',
     'train_or_test',
-    'job_blue-collar',
-    'job_management',
-    'job_technician',
-    'job_admin.',
-    'job_services',
-    'job_retired',
-    'job_self-employed',
-    'job_entrepreneur',
-    'job_unemployed',
-    'job_housemaid',
-    'job_student']]
+    'job']]
 
 # separate train and test data samples, and drop the train_or_test label
 bank_marketing_train = df_total[df_total['train_or_test'] == 'train'].drop('train_or_test', axis = 1)

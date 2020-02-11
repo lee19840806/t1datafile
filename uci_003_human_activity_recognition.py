@@ -52,6 +52,7 @@ def download_file(url):
     conn.close()
     return io.BytesIO(total)
 
+# download data from UCI Machine Learning Repository
 data_train = download_file(url_data_train)
 
 columns = [
@@ -636,7 +637,8 @@ for i in df_total.columns:
 
 # original activity_label: 1=WALKING, 2=WALKING_UPSTAIRS, 3=WALKING_DOWNSTAIRS, 4=SITTING, 5=STANDING, 6=LAYING
 # we are predicting whether a mobile phone user is LAYING or not, so we set "6" (LAYING) to 1 and the others to 0
-df_total['activity_label'] = df_total['activity_label'].apply(lambda x: 1 if x == 6 else 0)
+df_total['target_activity_label'] = df_total['activity_label'].apply(lambda x: 1 if x == 6 else 0)
+df_total = df_total.drop('activity_label', axis = 1)
 
 # save the dataframe as CSV file, you can zip it, upload it to t1modeler.com, and build a model
 df_total.to_csv('human_activity_recognition.csv', index = False)

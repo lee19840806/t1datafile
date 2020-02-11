@@ -52,6 +52,7 @@ def download_file(url):
     conn.close()
     return io.BytesIO(total)
 
+# download data from UCI Machine Learning Repository
 data_train = download_file(url_data_train)
 data_test = download_file(url_data_test)
 
@@ -85,8 +86,7 @@ df_total = pandas.concat([df_train, df_test]).reset_index(drop = True)
 # drop fnlwgt because it is not a variable for modeling
 # drop education because education-num is a better variable for modeling
 # drop relationship because it is not a variable for modeling
-# drop native-country because it has too many values which makes it highly-fregmented
-df_total = df_total.drop(['fnlwgt', 'education', 'relationship', 'native-country'], axis = 1)
+df_total = df_total.drop(['fnlwgt', 'education', 'relationship'], axis = 1)
 
 # group fragmented workclass values into general categories
 df_total['workclass'] = df_total['workclass'].apply(lambda x:
@@ -101,34 +101,18 @@ df_total['marital-status'] = df_total['marital-status'].apply(lambda x:
     else 'Divorced' if x in ['Divorced', 'Separated']
     else x)
 
-# create dummy variables for occupation, then drop the original occupation
-df_total['occupation_Prof-specialty'   ] = df_total['occupation'].apply(lambda x: 1 if x == 'Prof-specialty'    else 0)
-df_total['occupation_Craft-repair'     ] = df_total['occupation'].apply(lambda x: 1 if x == 'Craft-repair'      else 0)
-df_total['occupation_Exec-managerial'  ] = df_total['occupation'].apply(lambda x: 1 if x == 'Exec-managerial'   else 0)
-df_total['occupation_Adm-clerical'     ] = df_total['occupation'].apply(lambda x: 1 if x == 'Adm-clerical'      else 0)
-df_total['occupation_Sales'            ] = df_total['occupation'].apply(lambda x: 1 if x == 'Sales'             else 0)
-df_total['occupation_Other-service'    ] = df_total['occupation'].apply(lambda x: 1 if x == 'Other-service'     else 0)
-df_total['occupation_Machine-op-inspct'] = df_total['occupation'].apply(lambda x: 1 if x == 'Machine-op-inspct' else 0)
-df_total['occupation_Unknown'          ] = df_total['occupation'].apply(lambda x: 1 if x == '?'                 else 0)
-df_total['occupation_Transport-moving' ] = df_total['occupation'].apply(lambda x: 1 if x == 'Transport-moving'  else 0)
-df_total['occupation_Handlers-cleaners'] = df_total['occupation'].apply(lambda x: 1 if x == 'Handlers-cleaners' else 0)
-df_total['occupation_Farming-fishing'  ] = df_total['occupation'].apply(lambda x: 1 if x == 'Farming-fishing'   else 0)
-df_total['occupation_Tech-support'     ] = df_total['occupation'].apply(lambda x: 1 if x == 'Tech-support'      else 0)
-df_total['occupation_Protective-serv'  ] = df_total['occupation'].apply(lambda x: 1 if x == 'Protective-serv'   else 0)
-df_total['occupation_Priv-house-serv'  ] = df_total['occupation'].apply(lambda x: 1 if x == 'Priv-house-serv'   else 0)
-df_total = df_total.drop('occupation', axis = 1)
-
 # group fragmented race values into general categories
 df_total['race'] = df_total['race'].apply(lambda x:
     'Asian_AmerIndian_Other' if x in ['Asian-Pac-Islander', 'Amer-Indian-Eskimo', 'Other']
     else x)
 
 # finally the target variable, we convert it into 0 (<=50K) or 1 (>50K)
-df_total['income_greater_than_50k'] = df_total['income_greater_than_50k'].apply(lambda x: 1 if x == '>50K' else 0)
+df_total['target_income_greater_than_50k'] = df_total['income_greater_than_50k'].apply(lambda x: 1 if x == '>50K' else 0)
+df_total = df_total.drop('income_greater_than_50k', axis = 1)
 
-# re-order the columns so that income_greater_than_50k becomes the first column
+# re-order the columns so that target_income_greater_than_50k becomes the first column
 df_total = df_total[[
-    'income_greater_than_50k',
+    'target_income_greater_than_50k',
     'age',
     'workclass',
     'education-num',
@@ -139,20 +123,8 @@ df_total = df_total[[
     'capital-loss',
     'hours-per-week',
     'train_or_test',
-    'occupation_Prof-specialty',
-    'occupation_Craft-repair',
-    'occupation_Exec-managerial',
-    'occupation_Adm-clerical',
-    'occupation_Sales',
-    'occupation_Other-service',
-    'occupation_Machine-op-inspct',
-    'occupation_Unknown',
-    'occupation_Transport-moving',
-    'occupation_Handlers-cleaners',
-    'occupation_Farming-fishing',
-    'occupation_Tech-support',
-    'occupation_Protective-serv',
-    'occupation_Priv-house-serv']]
+    'native-country',
+    'occupation']]
 
 # separate train and test data samples, and drop the train_or_test label
 census_income_train = df_total[df_total['train_or_test'] == 'train'].drop('train_or_test', axis = 1)
