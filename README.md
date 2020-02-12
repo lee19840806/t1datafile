@@ -10,7 +10,7 @@ Mushroom, https://archive.ics.uci.edu/ml/datasets/Mushroom
 Spambase, https://archive.ics.uci.edu/ml/datasets/Spambase
 Insurance Company Benchmark, https://archive.ics.uci.edu/ml/datasets/Insurance+Company+Benchmark+%28COIL+2000%29
 German Credit Data, https://archive.ics.uci.edu/ml/datasets/Statlog+%28German+Credit+Data%29
-Dorothea, https://archive.ics.uci.edu/ml/datasets/Dorothea
+Dorothea, https://archive.ics.uci.edu/ml/datasets/Dorothea, http://clopinet.com/isabelle/Projects/NIPS2003/
 SECOM, https://archive.ics.uci.edu/ml/datasets/SECOM
 p53 Mutants, https://archive.ics.uci.edu/ml/datasets/p53+Mutants
 QSAR biodegradation, https://archive.ics.uci.edu/ml/datasets/QSAR+biodegradation
