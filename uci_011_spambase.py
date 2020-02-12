@@ -52,8 +52,7 @@ def download_file(url):
     return io.BytesIO(total)
 
 # download data from UCI Machine Learning Repository
-#data_train = download_file(url_data_train)
-data_train = '/home/lee1984/Desktop/spambase.data'
+data_train = download_file(url_data_train)
 
 # spam_nonspam is the original target variable, which will be converted into 0 or 1 later
 columns = [
