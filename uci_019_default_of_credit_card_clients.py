@@ -55,7 +55,7 @@ def download_file(url):
 # download data from UCI Machine Learning Repository
 data_train = download_file(url_data_train)
 
-# convert flat files into pandas dataframes
+# convert Excel file into pandas dataframe
 df_train = pandas.read_excel(data_train, header = 1, index_col = False)
 
 # drop column ID

@@ -99,7 +99,7 @@ columns = [
     'nX',
     'experimental']
 
-# convert flat files into pandas dataframes
+# convert flat file into pandas dataframe
 df_train = pandas.read_csv(data_train, delimiter = ';', header = None, names = columns, index_col = False)
 
 # the target variable, 1 = RB and 0 = NRB
