@@ -9,9 +9,9 @@ import pandas # install pandas by "pip install pandas", or install Anaconda dist
 # Warning: the data processing techniques shown below are just for concept explanation, which are not best-proctices
 
 # data set repository
-# https://archive.ics.uci.edu/ml/datasets/Parkinsons
+# https://archive.ics.uci.edu/ml/datasets/Cardiotocography
 
-url_data_train = 'https://archive.ics.uci.edu/ml/machine-learning-databases/parkinsons/parkinsons.data'
+url_data_train = 'https://archive.ics.uci.edu/ml/machine-learning-databases/00193/CTG.xls'
 
 def download_file(url):
     components = urllib.parse.urlparse(url)
@@ -55,14 +55,17 @@ def download_file(url):
 data_train = download_file(url_data_train)
 
 # convert flat file into pandas dataframe
-df_train = pandas.read_csv(data_train, header = 0, index_col = False)
+df_train = pandas.read_excel(data_train, sheet_name = 'Raw Data')
 
-# drop name because it's not a feature for modeling
-df_train = df_train.drop('name', axis = 1)
+# drop the first data row because it's an empty row
+df_train = df_train.drop(0)
 
-# the target_status variable, inserted as first column, and drop the original status column
-df_train.insert(0, 'target_status', df_train['status'])
-df_train = df_train.drop('status', axis = 1)
+# drop columns which are inappropriate for modeling
+df_train = df_train.drop(['FileName', 'Date', 'SegFile', 'CLASS'], axis = 1)
+
+# the target variable, we insert target_NSP into the dataframe as the first column and drop the original NSP column
+df_train.insert(0, 'target_NSP', df_train['NSP'].apply(lambda x: 1 if x == 1 else 0))
+df_train = df_train.drop('NSP', axis = 1)
 
 # save the dataframe as CSV file, you can zip it, upload it to t1modeler.com, and build a model
-df_train.to_csv('uci_025_parkinsons.csv', index = False)
+df_train.to_csv('uci_026_cardiotocography.csv', index = False)
