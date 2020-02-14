@@ -4,15 +4,15 @@
 import urllib
 import http
 import io
-import numpy
 import pandas # install pandas by "pip install pandas", or install Anaconda distribution (https://www.anaconda.com/)
 
 # Warning: the data processing techniques shown below are just for concept explanation, which are not best-proctices
 
 # data set repository
-# https://archive.ics.uci.edu/ml/datasets/Credit+Approval
+# https://archive.ics.uci.edu/ml/datasets/Madelon
 
-url_data_train = 'https://archive.ics.uci.edu/ml/machine-learning-databases/credit-screening/crx.data'
+url_data_train = 'https://archive.ics.uci.edu/ml/machine-learning-databases/madelon/MADELON/madelon_train.data'
+url_data_labels = 'https://archive.ics.uci.edu/ml/machine-learning-databases/madelon/MADELON/madelon_train.labels'
 
 def download_file(url):
     components = urllib.parse.urlparse(url)
@@ -54,57 +54,20 @@ def download_file(url):
 
 # download data from UCI Machine Learning Repository
 data_train = download_file(url_data_train)
+data_labels = download_file(url_data_labels)
 
-# A16 is the original target variable, which will be converted into 0 or 1 later
-columns = [
-    'A1',
-    'A2',
-    'A3',
-    'A4',
-    'A5',
-    'A6',
-    'A7',
-    'A8',
-    'A9',
-    'A10',
-    'A11',
-    'A12',
-    'A13',
-    'A14',
-    'A15',
-    'A16']
+# generate column names
+columns = ['variable_' + str(i + 1).zfill(3) for i in range(500)]
 
-# convert flat file into pandas dataframe 
-df_train = pandas.read_csv(data_train, header = None, names = columns, index_col = False)
+# convert flat files into pandas dataframes
+df_train = pandas.read_csv(data_train, delimiter = '\s+', header = None, names = columns, index_col = False)
+df_labels = pandas.read_csv(data_labels, delimiter = '\s+', header = None, names = ['target_label'], index_col = False)
 
-# set "?" to numpy.nan and convert column into float
-df_train['A2'] = df_train['A2'].apply(lambda x: numpy.nan if x == '?' else x).astype(numpy.float64)
+# merge labels with features
+df_total = df_labels.merge(df_train, how = 'left', left_index = True, right_index = True)
 
-# set "?" to numpy.nan and convert column into float
-df_train['A14'] = df_train['A14'].apply(lambda x: numpy.nan if x == '?' else x).astype(numpy.float64)
+# set target values to 0 and 1
+df_total['target_label'] = df_total['target_label'].apply(lambda x: 1 if x == 1 else 0)
 
-# convert target A16 into 0 (-) and 1 (+)
-df_train['target_A16'] = df_train['A16'].apply(lambda x: 1 if x == '+' else 0).astype(numpy.int64)
-df_train = df_train.drop('A16', axis = 1)
-
-# re-order the columns so that target_A16 becomes the first column
-df_train = df_train[[
-    'target_A16',
-    'A1',
-    'A2',
-    'A3',
-    'A4',
-    'A5',
-    'A6',
-    'A7',
-    'A8',
-    'A9',
-    'A10',
-    'A11',
-    'A12',
-    'A13',
-    'A14',
-    'A15']]
-
-# save the dataframes as CSV file, you can zip it, upload it to t1modeler.com, and build a model
-df_train.to_csv('credit_approval.csv', index = False)
+# save the dataframe as CSV file, you can zip it, upload it to t1modeler.com, and build a model
+df_total.to_csv('madelon.csv', index = False)
