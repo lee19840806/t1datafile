@@ -107,4 +107,4 @@ df_train = df_train[[
     'A15']]
 
 # save the dataframes as CSV file, you can zip it, upload it to t1modeler.com, and build a model
-df_train.to_csv('credit_approval.csv', index = False)
+df_train.to_csv('uci_004_credit_approval.csv', index = False)

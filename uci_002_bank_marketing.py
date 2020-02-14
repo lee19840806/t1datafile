@@ -103,5 +103,5 @@ bank_marketing_train = df_total[df_total['train_or_test'] == 'train'].drop('trai
 bank_marketing_test = df_total[df_total['train_or_test'] == 'test'].drop('train_or_test', axis = 1)
 
 # save the 2 dataframes as CSV files, you can zip them respectively, upload them to t1modeler.com, and build a model
-bank_marketing_train.to_csv('bank_marketing_train.csv', index = False)
-bank_marketing_test.to_csv('bank_marketing_test.csv', index = False)
+bank_marketing_train.to_csv('uci_002_bank_marketing_train.csv', index = False)
+bank_marketing_test.to_csv('uci_002_bank_marketing_test.csv', index = False)

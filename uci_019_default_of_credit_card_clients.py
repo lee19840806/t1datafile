@@ -146,4 +146,4 @@ df_train.insert(0, 'target_default_payment_next_month', df_train['default paymen
 df_train = df_train.drop('default payment next month', axis = 1)
 
 # save the dataframe as CSV file, you can zip it, upload it to t1modeler.com, and build a model
-df_train.to_csv('default_of_credit_card_clients.csv', index = False)
+df_train.to_csv('uci_019_default_of_credit_card_clients.csv', index = False)

@@ -104,4 +104,4 @@ df_train.insert(0, 'target_family_history', df_train['family_history'])
 df_train = df_train.drop('family_history', axis = 1)
 
 # save the dataframe as CSV file, you can zip it, upload it to t1modeler.com, and build a model
-df_train.to_csv('dermatology.csv', index = False)
+df_train.to_csv('uci_022_dermatology.csv', index = False)

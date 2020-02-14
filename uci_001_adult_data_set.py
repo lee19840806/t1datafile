@@ -131,5 +131,5 @@ census_income_train = df_total[df_total['train_or_test'] == 'train'].drop('train
 census_income_test = df_total[df_total['train_or_test'] == 'test'].drop('train_or_test', axis = 1)
 
 # save the 2 dataframes as CSV files, you can zip them respectively, upload them to t1modeler.com, and build a model
-census_income_train.to_csv('census_income_train.csv', index = False)
-census_income_test.to_csv('census_income_test.csv', index = False)
+census_income_train.to_csv('uci_001_adult_data_set_train.csv', index = False)
+census_income_test.to_csv('uci_001_adult_data_set_test.csv', index = False)

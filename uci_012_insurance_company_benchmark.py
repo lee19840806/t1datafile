@@ -213,4 +213,4 @@ df_train.insert(0, 'target_Number_of_mobile_home_policies', df_train['Number_of_
 df_train = df_train.drop('Number_of_mobile_home_policies', axis = 1)
 
 # save the dataframe as CSV file, you can zip it, upload it to t1modeler.com, and build a model
-df_train.to_csv('insurance_company_benchmark.csv', index = False)
+df_train.to_csv('uci_012_insurance_company_benchmark.csv', index = False)

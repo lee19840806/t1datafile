@@ -100,4 +100,4 @@ df_train.insert(0, 'target_Result', df_train['Result'].apply(lambda x: 1 if x ==
 df_train = df_train.drop('Result', axis = 1)
 
 # save the dataframe as CSV file, you can zip it, upload it to t1modeler.com, and build a model
-df_train.to_csv('phishing_websites.csv', index = False)
+df_train.to_csv('uci_018_phishing_websites.csv', index = False)

@@ -70,4 +70,4 @@ df_total = df_labels.merge(df_train, how = 'left', left_index = True, right_inde
 df_total['target'] = df_total['target'].apply(lambda x: 1 if x == 1 else 0)
 
 # save the dataframe as CSV file, you can zip it, upload it to t1modeler.com, and build a model
-df_total.to_csv('secom.csv', index = False)
+df_total.to_csv('uci_014_secom.csv', index = False)

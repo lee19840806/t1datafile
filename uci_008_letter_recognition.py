@@ -103,4 +103,4 @@ df_train = df_train[[
     'yegvx']]
 
 # save the dataframe as CSV file, you can zip it, upload it to t1modeler.com, and build a model
-df_train.to_csv('letter_recognition.csv', index = False)
+df_train.to_csv('uci_008_letter_recognition.csv', index = False)

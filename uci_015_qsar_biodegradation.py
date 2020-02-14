@@ -108,4 +108,4 @@ df_train.insert(0, 'target_experimental', df_train['experimental'].apply(lambda 
 df_train = df_train.drop('experimental', axis = 1)
 
 # save the dataframe as CSV file, you can zip it, upload it to t1modeler.com, and build a model
-df_train.to_csv('qsar_biodegradation.csv', index = False)
+df_train.to_csv('uci_015_qsar_biodegradation.csv', index = False)

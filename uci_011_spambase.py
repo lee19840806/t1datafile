@@ -124,4 +124,4 @@ df_train.insert(0, 'target_spam_nonspam', df_train['spam_nonspam'])
 df_train = df_train.drop('spam_nonspam', axis = 1)
 
 # save the dataframe as CSV file, you can zip it, upload it to t1modeler.com, and build a model
-df_train.to_csv('spambase.csv', index = False)
+df_train.to_csv('uci_011_spambase.csv', index = False)

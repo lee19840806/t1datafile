@@ -98,4 +98,4 @@ df_train.insert(0, 'target_Label', df_train['Label'].apply(lambda x: 1 if x == '
 df_train = df_train.drop('Label', axis = 1)
 
 # save the dataframe as CSV file, you can zip it, upload it to t1modeler.com, and build a model
-df_train.to_csv('sports_articles_objectivity.csv', index = False)
+df_train.to_csv('uci_020_sports_articles_objectivity.csv', index = False)

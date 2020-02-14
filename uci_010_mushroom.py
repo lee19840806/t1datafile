@@ -87,4 +87,4 @@ df_train = pandas.read_csv(data_train, header = None, names = columns, index_col
 df_train['target_poisonous_or_edible'] = df_train['target_poisonous_or_edible'].apply(lambda x: 1 if x == 'p' else 0)
 
 # save the dataframe as CSV file, you can zip it, upload it to t1modeler.com, and build a model
-df_train.to_csv('mushroom.csv', index = False)
+df_train.to_csv('uci_010_mushroom.csv', index = False)

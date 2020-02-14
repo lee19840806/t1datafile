@@ -111,4 +111,4 @@ df_train.insert(0, 'target_class', df_train['class'])
 df_train = df_train.drop('class', axis = 1)
 
 # save the dataframe as CSV file, you can zip it, upload it to t1modeler.com, and build a model
-df_train.to_csv('seismic_bumps.csv', index = False)
+df_train.to_csv('uci_016_seismic_bumps.csv', index = False)

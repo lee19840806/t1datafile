@@ -102,4 +102,4 @@ df_target.insert(0, 'target_numeral_5', df_target['handwritten_numeral'].apply(l
 df_target = df_target.drop('handwritten_numeral', axis = 1)
 
 # save the dataframe as CSV file, you can zip it, upload it to t1modeler.com, and build a model
-df_target.to_csv('multiple_features.csv', index = False)
+df_target.to_csv('uci_009_multiple_features.csv', index = False)

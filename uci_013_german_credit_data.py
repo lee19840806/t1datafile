@@ -114,4 +114,4 @@ df_train.insert(0, 'target_good_or_bad', df_train['good_or_bad'].apply(lambda x:
 df_train = df_train.drop('good_or_bad', axis = 1)
 
 # save the dataframe as CSV file, you can zip it, upload it to t1modeler.com, and build a model
-df_train.to_csv('german_credit_data.csv', index = False)
+df_train.to_csv('uci_013_german_credit_data.csv', index = False)

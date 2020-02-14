@@ -641,4 +641,4 @@ df_total['target_activity_label'] = df_total['activity_label'].apply(lambda x: 1
 df_total = df_total.drop('activity_label', axis = 1)
 
 # save the dataframe as CSV file, you can zip it, upload it to t1modeler.com, and build a model
-df_total.to_csv('human_activity_recognition.csv', index = False)
+df_total.to_csv('uci_003_human_activity_recognition.csv', index = False)
