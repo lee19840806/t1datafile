@@ -9,9 +9,9 @@ import pandas # install pandas by "pip install pandas", or install Anaconda dist
 # Warning: the data processing techniques shown below are just for concept explanation, which are not best-proctices
 
 # data set repository
-# https://archive.ics.uci.edu/ml/datasets/Climate+Model+Simulation+Crashes
+# https://archive.ics.uci.edu/ml/datasets/Dataset+for+Sensorless+Drive+Diagnosis
 
-url_data_train = 'https://archive.ics.uci.edu/ml/machine-learning-databases/00252/pop_failures.dat'
+url_data_train = 'https://archive.ics.uci.edu/ml/machine-learning-databases/00325/Sensorless_drive_diagnosis.txt'
 
 def download_file(url):
     components = urllib.parse.urlparse(url)
@@ -54,15 +54,15 @@ def download_file(url):
 # download data from UCI Machine Learning Repository
 data_train = download_file(url_data_train)
 
+columns = ['variable_' + str(i + 1).zfill(3) for i in range(48)] + ['class']
+
 # convert flat file into pandas dataframe
-df_train = pandas.read_csv(data_train, delimiter = '\s+', header = 0, index_col = False)
+df_train = pandas.read_csv(data_train, delimiter = '\s+', header = None, names = columns, index_col = False)
 
-# drop columns which are inappropriate for modeling
-df_train = df_train.drop(['Study', 'Run'], axis = 1)
-
-# insert target_outcome into the dataframe as first column, and drop the original outcome column
-df_train.insert(0, 'target_outcome', df_train['outcome'])
-df_train = df_train.drop('outcome', axis = 1)
+# insert target_class into the dataframe as first column, and drop the original outcome column
+# we set class 1 as 1 and other classes as 0
+df_train.insert(0, 'target_class', df_train['class'].apply(lambda x: 1 if x == 1 else 0))
+df_train = df_train.drop('class', axis = 1)
 
 # save the dataframe as CSV file, you can zip it, upload it to t1modeler.com, and build a model
-df_train.to_csv('uci_030_climate_model_simulation_crashes.csv', index = False)
+df_train.to_csv('uci_037_sensorless_drive_diagnosis.csv', index = False)
