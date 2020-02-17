@@ -4,15 +4,14 @@
 import urllib
 import http
 import io
-import zipfile
 import pandas # install pandas by "pip install pandas", or install Anaconda distribution (https://www.anaconda.com/)
 
 # Warning: the data processing techniques shown below are just for concept explanation, which are not best-proctices
 
 # data set repository
-# https://archive.ics.uci.edu/ml/datasets/Online+News+Popularity
+# https://archive.ics.uci.edu/ml/datasets/Mice+Protein+Expression
 
-url_data_train = 'https://archive.ics.uci.edu/ml/machine-learning-databases/00332/OnlineNewsPopularity.zip'
+url_data_train = 'https://archive.ics.uci.edu/ml/machine-learning-databases/00342/Data_Cortex_Nuclear.xls'
 
 def download_file(url):
     components = urllib.parse.urlparse(url)
@@ -55,18 +54,16 @@ def download_file(url):
 # download data from UCI Machine Learning Repository
 data_train = download_file(url_data_train)
 
-# unzip the downloaded file, and get data files
-with zipfile.ZipFile(data_train) as myzip:
-    with myzip.open('OnlineNewsPopularity/OnlineNewsPopularity.csv') as myfile:
-        df_training = pandas.read_csv(myfile, header = 0, index_col = False, skipinitialspace = True)
+# read data from Excel file
+df_training = pandas.read_excel(data_train)
 
 # drop variables which are inappropriate for modeling
-df_training = df_training.drop(['url', 'timedelta'], axis = 1)
+df_training = df_training.drop(['MouseID', 'Genotype', 'Treatment', 'Behavior'], axis = 1)
 
-# the target variable, inserted into the dataframe as the first column, and drop the original shares variable
-# define shares >= 15000 as popular and set target values to 1, shares < 15000 are set to 0
-df_training.insert(0, 'target_shares', df_training['shares'].apply(lambda x: 1 if x >= 15000 else 0))
-df_training = df_training.drop('shares', axis = 1)
+# the target variable, inserted into the dataframe as the first column, and drop the original class variable
+# define class == c-CS-m as 1, and class = other values as 0
+df_training.insert(0, 'target_class', df_training['class'].apply(lambda x: 1 if x == 'c-CS-m' else 0))
+df_training = df_training.drop('class', axis = 1)
 
 # save the dataframe as CSV file, you can zip it, upload it to t1modeler.com, and build a model
-df_training.to_csv('uci_040_online_news_popularity.csv', index = False)
+df_training.to_csv('uci_041_mice_protein_expression.csv', index = False)
