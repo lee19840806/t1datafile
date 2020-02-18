@@ -63,7 +63,7 @@ columns = [
     'Hepatitis B e Antigen',
     'Hepatitis B Core Antibody',
     'Hepatitis C Virus Antibody',
-    'Cirrhosis ',
+    'Cirrhosis',
     'Endemic Countries',
     'Smoking',
     'Diabetes',

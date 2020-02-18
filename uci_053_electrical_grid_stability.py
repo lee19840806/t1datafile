@@ -9,9 +9,9 @@ import pandas # install pandas by "pip install pandas", or install Anaconda dist
 # Warning: the data processing techniques shown below are just for concept explanation, which are not best-proctices
 
 # data set repository
-# https://archive.ics.uci.edu/ml/datasets/Online+Shoppers+Purchasing+Intention+Dataset
+# https://archive.ics.uci.edu/ml/datasets/Electrical+Grid+Stability+Simulated+Data+
 
-url_data_train = 'https://archive.ics.uci.edu/ml/machine-learning-databases/00468/online_shoppers_intention.csv'
+url_data_train = 'https://archive.ics.uci.edu/ml/machine-learning-databases/00471/Data_for_UCI_named.csv'
 
 def download_file(url):
     components = urllib.parse.urlparse(url)
@@ -52,18 +52,19 @@ def download_file(url):
     return io.BytesIO(total)
 
 # download data from UCI Machine Learning Repository
-data_train = download_file(url_data_train)
+#data_train = download_file(url_data_train)
+data_train = '/home/lee1984/Desktop/Data_for_UCI_named.csv'
 
 # convert flat file into pandas dataframe
 df_train = pandas.read_csv(data_train, header = 0)
 
-## turn Weekend values of True and False into 1 and 0
-#df_train['Weekend'] = df_train['Weekend'].apply(lambda x: 1 if x else 0)
+# drop variables which are not for modeling
+df_train = df_train.drop('stab', axis = 1)
 
-# the target variable, inserted into the dataframe as the first column, and drop the original Revenue variable
-# set Revenue = True as 1 and Revenue = False as 0
-df_train.insert(0, 'target_Revenue', df_train['Revenue'].apply(lambda x: 1 if x else 0))
-df_train = df_train.drop('Revenue', axis = 1)
+# the target variable, inserted into the dataframe as the first column, and drop the original stabf variable
+# set 1 = 'stable' and 0 = 'unstable'
+df_train.insert(0, 'target_stabf', df_train['stabf'].apply(lambda x: 1 if x == 'stable' else 0))
+df_train = df_train.drop('stabf', axis = 1)
 
 # save the dataframe as CSV file, you can zip it, upload it to t1modeler.com, and build a model
-df_train.to_csv('uci_052_online_shoppers_purchasing_intention.csv', index = False)
+df_train.to_csv('uci_053_electrical_grid_stability.csv', index = False)
