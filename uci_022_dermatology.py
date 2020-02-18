@@ -4,7 +4,6 @@
 import urllib
 import http
 import io
-import numpy
 import pandas # install pandas by "pip install pandas", or install Anaconda distribution (https://www.anaconda.com/)
 
 # Warning: the data processing techniques shown below are just for concept explanation, which are not best-proctices
@@ -93,10 +92,7 @@ columns = [
     'Age']
 
 # convert flat files into pandas dataframes
-df_train = pandas.read_csv(data_train, header = None, names = columns, index_col = False)
-
-# set '?' to numpy.nan as missing values, and convert the Age column into numeric format
-df_train['Age'] = df_train['Age'].apply(lambda x: numpy.nan if x == '?' else x).astype(numpy.float64)
+df_train = pandas.read_csv(data_train, header = None, names = columns, index_col = False, na_values = '?')
 
 # the target variable
 # we insert target_family_history into the dataframe as the first column and drop the original family_history column

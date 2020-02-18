@@ -4,7 +4,6 @@
 import urllib
 import http
 import io
-import numpy
 import pandas # install pandas by "pip install pandas", or install Anaconda distribution (https://www.anaconda.com/)
 
 # Warning: the data processing techniques shown below are just for concept explanation, which are not best-proctices
@@ -73,11 +72,7 @@ columns = [
     'num']
 
 # convert flat files into pandas dataframes
-df_train = pandas.read_csv(data_train, header = None, names = columns, index_col = False)
-
-# set '?' to numpy.nan as missing values, and convert the columns into numeric format
-df_train['ca'] = df_train['ca'].apply(lambda x: numpy.nan if x == '?' else x).astype(numpy.float64)
-df_train['thal'] = df_train['thal'].apply(lambda x: numpy.nan if x == '?' else x).astype(numpy.float64)
+df_train = pandas.read_csv(data_train, header = None, names = columns, index_col = False, na_values = '?')
 
 # the target variable, 1 if num >= 1 and 0 if num == 0
 # we insert target_num into the dataframe as the first column and drop the original num column

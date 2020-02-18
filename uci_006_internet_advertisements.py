@@ -4,7 +4,6 @@
 import urllib
 import http
 import io
-import numpy
 import pandas # install pandas by "pip install pandas", or install Anaconda distribution (https://www.anaconda.com/)
 
 # Warning: the data processing techniques shown below are just for concept explanation, which are not best-proctices
@@ -1618,13 +1617,8 @@ columns = [
     'ad_or_nonad']
 
 # convert flat file into pandas dataframe
-df_train = pandas.read_csv(data_train, header = None, names = columns, index_col = False, skipinitialspace = True, low_memory = False)
-
-# convert these variables into float format
-df_train['height'] = df_train['height'].apply(lambda x: numpy.nan if x == '?' else x).astype(numpy.float64)
-df_train['width' ] = df_train['width' ].apply(lambda x: numpy.nan if x == '?' else x).astype(numpy.float64)
-df_train['aratio'] = df_train['aratio'].apply(lambda x: numpy.nan if x == '?' else x).astype(numpy.float64)
-df_train['local' ] = df_train['local' ].apply(lambda x: numpy.nan if x == '?' else x).astype(numpy.float64)
+df_train = pandas.read_csv(data_train, header = None, names = columns, index_col = False,
+    skipinitialspace = True, low_memory = False, na_values = '?')
 
 # the target variable, 0 = nonad and 1 = ad
 df_train['ad_or_nonad'] = df_train['ad_or_nonad'].apply(lambda x: 1 if x == 'ad.' else 0)

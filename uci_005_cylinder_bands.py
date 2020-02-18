@@ -4,7 +4,6 @@
 import urllib
 import http
 import io
-import numpy
 import pandas # install pandas by "pip install pandas", or install Anaconda distribution (https://www.anaconda.com/)
 
 # Warning: the data processing techniques shown below are just for concept explanation, which are not best-proctices
@@ -102,7 +101,7 @@ columns = [
     'band_type']
 
 # convert flat file into pandas dataframe
-df_train = pandas.read_csv(content, header = None, names = columns, index_col = False)
+df_train = pandas.read_csv(content, header = None, names = columns, index_col = False, na_values = '?')
 
 # drop those variables which are not for modeling
 df_train = df_train.drop(['timestamp', 'cylinder_number', 'customer', 'ink_color', 'cylinder_division', 'direct_steam'], axis = 1)
@@ -113,13 +112,6 @@ df_train['ink_type'] = df_train['ink_type'].str.upper()
 df_train['type_on_cylinder'] = df_train['type_on_cylinder'].str.upper()
 df_train['cylinder_size'] = df_train['cylinder_size'].str.upper()
 df_train['paper_mill_location'] = df_train['paper_mill_location'].str.upper()
-
-# convert these variables into numeric format, and set '?' to numpy.nan
-convert_to_float = ['plating_tank', 'proof_cut', 'viscosity', 'caliper', 'ink_temperature', 'humifity', 'roughness',
-    'blade_pressure', 'varnish_pct', 'press_speed', 'ink_pct', 'solvent_pct', 'ESA_Voltage', 'ESA_Amperage', 'wax',
-    'hardener', 'roller_durometer', 'current_density', 'anode_space_ratio', 'chrome_content']
-for var in convert_to_float:
-    df_train[var] = df_train[var].apply(lambda x: numpy.nan if x == '?' else x).astype(numpy.float64)
 
 # finally the target variable, 0 = noband and 1 = band
 df_train['target_band_type'] = df_train['band_type'].apply(lambda x: 0 if x == 'noband' else 1)

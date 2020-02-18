@@ -75,13 +75,7 @@ columns = [
     'A16']
 
 # convert flat file into pandas dataframe 
-df_train = pandas.read_csv(data_train, header = None, names = columns, index_col = False)
-
-# set "?" to numpy.nan and convert column into float
-df_train['A2'] = df_train['A2'].apply(lambda x: numpy.nan if x == '?' else x).astype(numpy.float64)
-
-# set "?" to numpy.nan and convert column into float
-df_train['A14'] = df_train['A14'].apply(lambda x: numpy.nan if x == '?' else x).astype(numpy.float64)
+df_train = pandas.read_csv(data_train, header = None, names = columns, index_col = False, na_values = '?')
 
 # convert target A16 into 0 (-) and 1 (+)
 df_train['target_A16'] = df_train['A16'].apply(lambda x: 1 if x == '+' else 0).astype(numpy.int64)

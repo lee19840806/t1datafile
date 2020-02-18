@@ -4,7 +4,6 @@
 import urllib
 import http
 import io
-import numpy
 import pandas # install pandas by "pip install pandas", or install Anaconda distribution (https://www.anaconda.com/)
 
 # Warning: the data processing techniques shown below are just for concept explanation, which are not best-proctices
@@ -133,15 +132,10 @@ columns = [
     'target']
 
 # convert flat file into pandas dataframe
-df_train = pandas.read_csv(data_train, header = None, names = columns, index_col = False)
+df_train = pandas.read_csv(data_train, header = None, names = columns, index_col = False, na_values = '?')
 
 # drop Date because it's not a feature for modeling
 df_train = df_train.drop('Date', axis = 1)
-
-# convert columns into float and set appropriate missing values
-for column in df_train.columns:
-    if column != 'target':
-        df_train[column] = df_train[column].apply(lambda x: numpy.nan if x == '?' else x).astype(numpy.float64)
 
 # the target_ozone_day variable, inserted as first column, and drop the original target column
 df_train.insert(0, 'target_ozone_day', df_train['target'])
