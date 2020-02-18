@@ -54,9 +54,6 @@ def download_file(url):
 # download data from UCI Machine Learning Repository
 data_train = download_file(url_data_train)
 
-# locate data rows by using '@data\n' as a split word
-content_data = io.BytesIO(data_train.read().decode().split('@data')[-1].encode())
-
 # Result is the original target variable, which will be converted into 0 or 1 later
 columns = [
     'having_IP_Address',
@@ -92,7 +89,7 @@ columns = [
     'Result']
 
 # convert flat files into pandas dataframes
-df_train = pandas.read_csv(content_data, header = None, names = columns, index_col = False)
+df_train = pandas.read_csv(data_train, header = None, names = columns, index_col = False, skiprows = 36)
 
 # the target variable, 1 = 1 and 0 = -1
 # we insert target_Result into the dataframe as the first column and drop the original Result column

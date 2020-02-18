@@ -54,9 +54,6 @@ def download_file(url):
 # download data from UCI Machine Learning Repository
 data_train = download_file(url_data_train)
 
-# locate data rows by using '@data\n' as a split word
-content_data = io.BytesIO(data_train.read().decode().split('@data')[-1].encode())
-
 # Risk1Y is the original target variable, which will be converted into 0 or 1 later
 columns = [
     'DGN',
@@ -78,7 +75,7 @@ columns = [
     'Risk1Yr']
 
 # convert flat files into pandas dataframes
-df_train = pandas.read_csv(content_data, header = None, names = columns, index_col = False)
+df_train = pandas.read_csv(data_train, header = None, names = columns, index_col = False, skiprows = 21)
 
 # convert PRE14 to numeric values, because the underlying categorical values can be binned when modeling
 PRE14_dict = {

@@ -54,14 +54,11 @@ def download_file(url):
 # download data from UCI Machine Learning Repository
 data_train = download_file(url_data_train)
 
-# locate data rows by using '@data\n' as a split word
-content_data = io.BytesIO(data_train.read().decode().split('@data')[-1].encode())
-
 # eyeDetection is the original target variable, which will be converted into 0 or 1 later
 columns = ['variable_' + str(i + 1).zfill(3) for i in range(19)] + ['class_label']
 
 # convert flat files into pandas dataframes
-df_train = pandas.read_csv(content_data, header = None, names = columns, index_col = False)
+df_train = pandas.read_csv(data_train, header = None, names = columns, index_col = False, skiprows = 24)
 
 # the target variable, we insert target_class_label into the dataframe as the first column and drop the original class_label column
 df_train.insert(0, 'target_class_label', df_train['class_label'])
