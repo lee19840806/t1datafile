@@ -52,8 +52,7 @@ def download_file(url):
     return io.BytesIO(total)
 
 # download data from UCI Machine Learning Repository
-#data_train = download_file(url_data_train)
-data_train = '/home/lee1984/Desktop/Data_for_UCI_named.csv'
+data_train = download_file(url_data_train)
 
 # convert flat file into pandas dataframe
 df_train = pandas.read_csv(data_train, header = 0)
