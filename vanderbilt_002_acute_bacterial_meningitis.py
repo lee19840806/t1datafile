@@ -4,15 +4,14 @@
 import urllib
 import http
 import io
-import numpy
 import pandas # install pandas by "pip install pandas", or install Anaconda distribution (https://www.anaconda.com/)
 
 # Warning: the data processing techniques shown below are just for concept explanation, which are not best-proctices
 
 # data set repository
-# http://biostat.mc.vanderbilt.edu/wiki/pub/Main/DataSets/titanic.html
+# http://biostat.mc.vanderbilt.edu/wiki/pub/Main/DataSets/abm.html
 
-url_data_train = 'http://biostat.mc.vanderbilt.edu/wiki/pub/Main/DataSets/titanic3.xls'
+url_data_train = 'http://biostat.mc.vanderbilt.edu/wiki/pub/Main/DataSets/acath.xls.zip'
 
 def download_file(url):
     hds = {'User-Agent': 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.7) Gecko/2009021910 Firefox/3.0.7'}
@@ -59,18 +58,16 @@ data_train = download_file(url_data_train)
 # convert Excel file into pandas dataframe
 df_train = pandas.read_excel(data_train)
 
+# records with missing sex values have very high missing rate for other variables, which are inappropriate for modeling
+# retain records with non-missing abm values and non-missing sex values
+df_train = df_train[df_train['abm'].notnull() & df_train['sex'].notnull()]
+
 # drop variables which are not for modeling
-df_train = df_train.drop(['name', 'ticket', 'boat', 'home.dest'], axis = 1)
+df_train = df_train.drop(['casenum', 'year', 'month', 'subset'], axis = 1)
 
-# get cabin category by extracting the first letter from values
-df_train['cabin'] = df_train['cabin'].str[0]
-
-# there are very few cabin G and cabin T records, so we set them to missing
-df_train['cabin'] = df_train['cabin'].apply(lambda x: numpy.nan if x in ['G', 'T'] else x)
-
-# the target variable, inserted into the dataframe as the first column, and drop the original survived variable
-df_train.insert(0, 'target_survived', df_train['survived'])
-df_train = df_train.drop('survived', axis = 1)
+# the target variable, inserted into the dataframe as the first column, and drop the original abm variable
+df_train.insert(0, 'target_abm', df_train['abm'])
+df_train = df_train.drop('abm', axis = 1)
 
 # save the dataframe as CSV file, you can zip it, upload it to t1modeler.com, and build a model
-df_train.to_csv('vanderbilt_001_titanic.csv', index = False)
+df_train.to_csv('vanderbilt_002_acute_bacterial_meningitis.csv', index = False)
