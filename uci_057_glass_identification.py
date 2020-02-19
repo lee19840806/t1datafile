@@ -4,21 +4,19 @@
 import urllib
 import http
 import io
-import numpy
 import pandas # install pandas by "pip install pandas", or install Anaconda distribution (https://www.anaconda.com/)
 
 # Warning: the data processing techniques shown below are just for concept explanation, which are not best-proctices
 
 # data set repository
-# http://biostat.mc.vanderbilt.edu/wiki/Main/DataSets
+# https://archive.ics.uci.edu/ml/datasets/glass+identification
 
-url_data_train = 'http://biostat.mc.vanderbilt.edu/wiki/pub/Main/DataSets/titanic3.xls'
+url_data_train = 'https://archive.ics.uci.edu/ml/machine-learning-databases/glass/glass.data'
 
 def download_file(url):
-    hds = {'User-Agent': 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.7) Gecko/2009021910 Firefox/3.0.7'}
     components = urllib.parse.urlparse(url)
     conn = http.client.HTTPConnection(components.hostname, port = components.port)
-    conn.request('GET', components.path, headers = hds)
+    conn.request('GET', components.path)
     resp = conn.getresponse()
 
     if resp.status != 200:
@@ -53,24 +51,29 @@ def download_file(url):
     conn.close()
     return io.BytesIO(total)
 
-# download data from website
+# download data from UCI Machine Learning Repository
 data_train = download_file(url_data_train)
 
-# convert Excel file into pandas dataframe
-df_train = pandas.read_excel(data_train)
+columns = [
+    'Id number',
+    'refractive_index',
+    'Sodium',
+    'Magnesium',
+    'Aluminum',
+    'Silicon',
+    'Potassium',
+    'Calcium',
+    'Barium',
+    'Iron',
+    'Class']
 
-# drop variables which are not for modeling
-df_train = df_train.drop(['name', 'ticket', 'boat', 'home.dest'], axis = 1)
+# convert flat file into pandas dataframe
+df_train = pandas.read_csv(data_train, header = None, names = columns)
 
-# get cabin category by extracting the first letter
-df_train['cabin'] = df_train['cabin'].str[0]
-
-# there are very few cabin G and cabin T records, so we set them to missing
-df_train['cabin'] = df_train['cabin'].apply(lambda x: numpy.nan if x in ['G', 'T'] else x)
-
-# the target variable, inserted into the dataframe as the first column, and drop the original survived variable
-df_train.insert(0, 'target_survived', df_train['survived'])
-df_train = df_train.drop('survived', axis = 1)
+# the target variable, inserted into the dataframe as the first column, and drop the original Class variable
+# set Class = 1 to 1 and Class = other values to 0
+df_train.insert(0, 'target_Class', df_train['Class'].apply(lambda x: 1 if x == 1 else 0))
+df_train = df_train.drop('Class', axis = 1)
 
 # save the dataframe as CSV file, you can zip it, upload it to t1modeler.com, and build a model
-df_train.to_csv('vanderbilt_001_titanic.csv', index = False)
+df_train.to_csv('uci_057_glass_identification.csv', index = False)
