@@ -4,15 +4,14 @@
 import urllib
 import http
 import io
-import zipfile
 import pandas # install pandas by "pip install pandas", or install Anaconda distribution (https://www.anaconda.com/)
 
 # Warning: the data processing techniques shown below are just for concept explanation, which are not best-proctices
 
 # data set repository
-# http://biostat.mc.vanderbilt.edu/wiki/bin/view/Main/AriDescription
+# http://biostat.mc.vanderbilt.edu/wiki/pub/Main/DataSets/dmd.html
 
-url_data_train = 'http://biostat.mc.vanderbilt.edu/wiki/pub/Main/DataSets/ari.zip'
+url_data_train = 'http://biostat.mc.vanderbilt.edu/wiki/pub/Main/DataSets/dmd.csv'
 
 def download_file(url):
     hds = {'User-Agent': 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.7) Gecko/2009021910 Firefox/3.0.7'}
@@ -56,28 +55,15 @@ def download_file(url):
 # download data from website
 data_train = download_file(url_data_train)
 
-# unzip the downloaded file, and get data files
-with zipfile.ZipFile(data_train) as myzip:
-    with myzip.open('ari/ari.csv') as myfile:
-        df_train = pandas.read_csv(myfile, header = 0)
-
-    with myzip.open('ari/Sc.csv') as myfile:
-        df_sc = pandas.read_csv(myfile, header = 0)
-
-    with myzip.open('ari/Y.csv') as myfile:
-        df_y = pandas.read_csv(myfile, header = 0)
-
-# merge y lable with features
-df_y = df_y.drop('Unnamed: 0', axis = 1).rename(columns = {'x': 'target_death'})
-df_sc = df_sc.drop(['age', 'rr', 'hrat', 'temp', 'waz'], axis = 1)
-df_train = df_train.merge(df_sc, how = 'left', on = 'Unnamed: 0')
-df_train = df_y.merge(df_train, how = 'left', left_index = True, right_index = True)
+# convert Excel file into pandas dataframe
+df_train = pandas.read_csv(data_train, header = 0)
 
 # drop variables which are not for modeling
-df_train = df_train.drop(['Unnamed: 0', 'stno'], axis = 1)
+df_train = df_train.drop(['Unnamed: 0', 'hospid', 'obsno'], axis = 1)
 
-# the target variable, set target_death > 0 to 1 and target_death = other values to 0
-df_train['target_death'] = df_train['target_death'].apply(lambda x: 1 if x > 0 else 0)
+# the target variable, inserted into the dataframe as the first column, and drop the original carrier variable
+df_train.insert(0, 'target_carrier', df_train['carrier'])
+df_train = df_train.drop('carrier', axis = 1)
 
 # save the dataframe as CSV file, you can zip it, upload it to t1modeler.com, and build a model
-df_train.to_csv('vanderbilt_003_ari_dataset.csv', index = False)
+df_train.to_csv('vanderbilt_004_duchenne_muscular_dystrophy.csv', index = False)
