@@ -60,8 +60,10 @@ with zipfile.ZipFile(data_train) as myzip:
     with myzip.open('to_uci/aps_failure_training_set.csv') as myfile:
         df_train = pandas.read_csv(myfile, header = 0, skiprows = 19, na_values = 'na', low_memory = False)
 
-# the class variable, set class = pos as 1 and class = neg as 0
-df_train['class'] = df_train['class'].apply(lambda x: 1 if x == 'pos' else 0)
+# the target variable, inserted into the dataframe as the first column, and drop the original class variable
+# set class = pos to 1 and class = neg to 0
+df_train.insert(0, 'target_class', df_train['class'].apply(lambda x: 1 if x == 'pos' else 0))
+df_train = df_train.drop('class', axis = 1)
 
 # save the dataframe as CSV file, you can zip it, upload it to t1modeler.com, and build a model
 df_train.to_csv('uci_050_ida2016challenge.csv', index = False)
