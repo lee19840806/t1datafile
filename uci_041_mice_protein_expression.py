@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import urllib
-import http
 import io
 import pandas # install pandas by "pip install pandas", or install Anaconda distribution (https://www.anaconda.com/)
 
@@ -14,14 +13,9 @@ import pandas # install pandas by "pip install pandas", or install Anaconda dist
 url_data_train = 'https://archive.ics.uci.edu/ml/machine-learning-databases/00342/Data_Cortex_Nuclear.xls'
 
 def download_file(url):
-    components = urllib.parse.urlparse(url)
-    conn = http.client.HTTPConnection(components.hostname, port = components.port)
-    conn.request('GET', components.path)
-    resp = conn.getresponse()
-
+    resp = urllib.request.urlopen(url)
     if resp.status != 200:
         resp.close()
-        conn.close()
         raise ValueError('Error: {0}'.format(resp.reason))
 
     print('\rStarted', end = '\r')
@@ -48,7 +42,6 @@ def download_file(url):
             print(('\rDownloaded: %.1f MB ' % (len(total) / 1024 / 1024)) + content_length_str + '  ', end = '\r')
 
     print()
-    conn.close()
     return io.BytesIO(total)
 
 # download data from UCI Machine Learning Repository

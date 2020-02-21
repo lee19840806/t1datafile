@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import urllib
-import http
 import io
 import pandas # install pandas by "pip install pandas", or install Anaconda distribution (https://www.anaconda.com/)
 
@@ -14,15 +13,9 @@ import pandas # install pandas by "pip install pandas", or install Anaconda dist
 url_data_train = 'http://biostat.mc.vanderbilt.edu/wiki/pub/Main/DataSets/rhc.csv'
 
 def download_file(url):
-    hds = {'User-Agent': 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.7) Gecko/2009021910 Firefox/3.0.7'}
-    components = urllib.parse.urlparse(url)
-    conn = http.client.HTTPConnection(components.hostname, port = components.port)
-    conn.request('GET', components.path, headers = hds)
-    resp = conn.getresponse()
-
+    resp = urllib.request.urlopen(url)
     if resp.status != 200:
         resp.close()
-        conn.close()
         raise ValueError('Error: {0}'.format(resp.reason))
 
     print('\rStarted', end = '\r')
@@ -49,7 +42,6 @@ def download_file(url):
             print(('\rDownloaded: %.1f MB ' % (len(total) / 1024 / 1024)) + content_length_str + '  ', end = '\r')
 
     print()
-    conn.close()
     return io.BytesIO(total)
 
 # download data from website
