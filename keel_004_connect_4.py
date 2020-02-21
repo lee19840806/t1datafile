@@ -9,9 +9,9 @@ import pandas # install pandas by "pip install pandas", or install Anaconda dist
 # Warning: the data processing techniques shown below are just for concept explanation, which are not best-proctices
 
 # data set repository
-# https://sci2s.ugr.es/keel/dataset.php?cod=181
+# https://sci2s.ugr.es/keel/dataset.php?cod=193
 
-url_data_train = 'https://sci2s.ugr.es/keel/dataset/data/classification/splice.zip'
+url_data_train = 'https://sci2s.ugr.es/keel/dataset/data/classification/connect-4.zip'
 
 def download_file(url):
     resp = urllib.request.urlopen(url)
@@ -49,77 +49,59 @@ def download_file(url):
 data_train = download_file(url_data_train)
 
 columns = [
-    'POS1',
-    'POS2',
-    'POS3',
-    'POS4',
-    'POS5',
-    'POS6',
-    'POS7',
-    'POS8',
-    'POS9',
-    'POS10',
-    'POS11',
-    'POS12',
-    'POS13',
-    'POS14',
-    'POS15',
-    'POS16',
-    'POS17',
-    'POS18',
-    'POS19',
-    'POS20',
-    'POS21',
-    'POS22',
-    'POS23',
-    'POS24',
-    'POS25',
-    'POS26',
-    'POS27',
-    'POS28',
-    'POS29',
-    'POS30',
-    'POS31',
-    'POS32',
-    'POS33',
-    'POS34',
-    'POS35',
-    'POS36',
-    'POS37',
-    'POS38',
-    'POS39',
-    'POS40',
-    'POS41',
-    'POS42',
-    'POS43',
-    'POS44',
-    'POS45',
-    'POS46',
-    'POS47',
-    'POS48',
-    'POS49',
-    'POS50',
-    'POS51',
-    'POS52',
-    'POS53',
-    'POS54',
-    'POS55',
-    'POS56',
-    'POS57',
-    'POS58',
-    'POS59',
-    'POS60',
+    'A1',
+    'A2',
+    'A3',
+    'A4',
+    'A5',
+    'A6',
+    'A7',
+    'A8',
+    'A9',
+    'A10',
+    'A11',
+    'A12',
+    'A13',
+    'A14',
+    'A15',
+    'A16',
+    'A17',
+    'A18',
+    'A19',
+    'A20',
+    'A21',
+    'A22',
+    'A23',
+    'A24',
+    'A25',
+    'A26',
+    'A27',
+    'A28',
+    'A29',
+    'A30',
+    'A31',
+    'A32',
+    'A33',
+    'A34',
+    'A35',
+    'A36',
+    'A37',
+    'A38',
+    'A39',
+    'A40',
+    'A41',
+    'A42',
     'Class']
 
 # unzip the downloaded file, and get data files
 with zipfile.ZipFile(data_train) as myzip:
-    with myzip.open('splice.dat') as myfile:
-        df_train = pandas.read_csv(myfile, header = None, names = columns, skiprows = 65, low_memory = False, skipinitialspace = True)
+    with myzip.open('connect-4.dat') as myfile:
+        df_train = pandas.read_csv(myfile, header = None, names = columns, skiprows = 47, low_memory = False, skipinitialspace = True)
 
 # the target variable, inserted into the dataframe as the first column, and drop the original Class variable
-# set Class = N to 1 and Class = other values to 0
-df_train.insert(0, 'target_Class', df_train['Class'].apply(lambda x: 1 if x == 'N' else 0))
+# set Class = win to 1 and Class = other values to 0
+df_train.insert(0, 'target_Class', df_train['Class'].apply(lambda x: 1 if x == 'win' else 0))
 df_train = df_train.drop('Class', axis = 1)
 
 # save the dataframe as CSV file, you can zip it, upload it to t1modeler.com, and build a model
-df_train.to_csv('keel_003_molecular_biology.csv', index = False)
+df_train.to_csv('keel_004_connect_4.csv', index = False)
