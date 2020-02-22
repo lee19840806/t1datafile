@@ -5,8 +5,6 @@ The scripts in this repository faciliate the following tasks:
 2. convert the data into pandas dataframe and binarize the target variable
 3. save the dataframe as CSV file which is ready for modeling on t1modeler.com
 
----
-
 | #  | File Name | Source Page |
 |----|-----------|-------------|
 | 1  | keel_001_kdd_cup_1999.py | [Link](https://sci2s.ugr.es/keel/dataset.php?cod=196) |
