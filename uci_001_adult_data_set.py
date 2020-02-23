@@ -48,7 +48,7 @@ def download_file(url):
 
 # download data from UCI Machine Learning Repository
 data_train = download_file(url_data_train) if url_data_train.startswith('http') else url_data_train
-data_test = download_file(url_data_test)
+data_test = download_file(url_data_test) if url_data_test.startswith('http') else url_data_test
 
 # income_greater_than_50k is the original target variable, which will be converted into 0 or 1 later
 columns = [
