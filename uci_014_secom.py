@@ -48,7 +48,7 @@ def download_file(url):
 
 # download data from UCI Machine Learning Repository
 data_train = download_file(url_data_train) if url_data_train.startswith('http') else url_data_train
-data_labels = download_file(url_data_labels)
+data_labels = download_file(url_data_labels) if url_data_labels.startswith('http') else url_data_labels
 
 # generate column names
 columns = ['variable_' + str(i + 1).zfill(3) for i in range(590)]
