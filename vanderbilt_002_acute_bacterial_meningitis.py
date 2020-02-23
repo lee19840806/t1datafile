@@ -11,7 +11,7 @@ import pandas # install pandas by "pip install pandas", or install Anaconda dist
 # http://biostat.mc.vanderbilt.edu/wiki/pub/Main/DataSets/abm.html
 
 # if the file is on your local device, change url_data_train into local file path, e.g., '‪D:\local_file.data'
-url_data_train = 'http://biostat.mc.vanderbilt.edu/wiki/pub/Main/DataSets/acath.xls.zip'
+url_data_train = 'http://biostat.mc.vanderbilt.edu/wiki/pub/Main/DataSets/abm.xls'
 
 def download_file(url):
     resp = urllib.request.urlopen(url)
