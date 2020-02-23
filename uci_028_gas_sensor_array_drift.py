@@ -12,6 +12,7 @@ import pandas # install pandas by "pip install pandas", or install Anaconda dist
 # data set repository
 # https://archive.ics.uci.edu/ml/datasets/Gas+Sensor+Array+Drift+Dataset
 
+# if the file is on your local device, change url_data_train into local file path, e.g., '‪D:\local_file.data'
 url_data_train = 'https://archive.ics.uci.edu/ml/machine-learning-databases/00224/Dataset.zip'
 
 def download_file(url):
@@ -47,7 +48,7 @@ def download_file(url):
     return io.BytesIO(total)
 
 # download data from UCI Machine Learning Repository
-data_train = download_file(url_data_train)
+data_train = download_file(url_data_train) if url_data_train.startswith('http') else url_data_train
 
 # generate column names
 base_name = ['IR_', '|IR|_', 'EMAi0.001_', 'EMAi0.01_', 'EMAi0.1_', 'EMAd0.001_', 'EMAd0.01_', 'EMAd0.1_']

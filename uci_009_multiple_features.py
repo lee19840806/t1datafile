@@ -10,6 +10,7 @@ import pandas # install pandas by "pip install pandas", or install Anaconda dist
 # data set repository
 # https://archive.ics.uci.edu/ml/datasets/Multiple+Features
 
+# if the file is on your local device, change url into local file path, e.g., '‪D:\local_file.data'
 url_mfeat_fac = 'https://archive.ics.uci.edu/ml/machine-learning-databases/mfeat/mfeat-fac'
 url_mfeat_fou = 'https://archive.ics.uci.edu/ml/machine-learning-databases/mfeat/mfeat-fou'
 url_mfeat_kar = 'https://archive.ics.uci.edu/ml/machine-learning-databases/mfeat/mfeat-kar'
@@ -50,12 +51,12 @@ def download_file(url):
     return io.BytesIO(total)
 
 # download data from UCI Machine Learning Repository
-data_mfeat_fac = download_file(url_mfeat_fac)
-data_mfeat_fou = download_file(url_mfeat_fou)
-data_mfeat_kar = download_file(url_mfeat_kar)
-data_mfeat_mor = download_file(url_mfeat_mor)
-data_mfeat_pix = download_file(url_mfeat_pix)
-data_mfeat_zer = download_file(url_mfeat_zer)
+data_mfeat_fac = download_file(url_mfeat_fac) if url_mfeat_fac.startswith('http') else url_mfeat_fac
+data_mfeat_fou = download_file(url_mfeat_fou) if url_mfeat_fou.startswith('http') else url_mfeat_fou
+data_mfeat_kar = download_file(url_mfeat_kar) if url_mfeat_kar.startswith('http') else url_mfeat_kar
+data_mfeat_mor = download_file(url_mfeat_mor) if url_mfeat_mor.startswith('http') else url_mfeat_mor
+data_mfeat_pix = download_file(url_mfeat_pix) if url_mfeat_pix.startswith('http') else url_mfeat_pix
+data_mfeat_zer = download_file(url_mfeat_zer) if url_mfeat_zer.startswith('http') else url_mfeat_zer
 
 # generate column names for each of the 6 files
 columns_fac = ['profile_correlations_'       + str(i + 1).zfill(3) for i in range(216)]

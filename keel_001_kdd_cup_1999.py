@@ -11,6 +11,7 @@ import pandas # install pandas by "pip install pandas", or install Anaconda dist
 # data set repository
 # https://sci2s.ugr.es/keel/dataset.php?cod=196
 
+# if the file is on your local device, change url_data_train into local file path, e.g., '‪D:\local_file.data'
 url_data_train = 'https://sci2s.ugr.es/keel/dataset/data/classification/kddcup.zip'
 
 def download_file(url):
@@ -46,7 +47,7 @@ def download_file(url):
     return io.BytesIO(total)
 
 # download data from website
-data_train = download_file(url_data_train)
+data_train = download_file(url_data_train) if url_data_train.startswith('http') else url_data_train
 
 columns = [
     'Atr-0',

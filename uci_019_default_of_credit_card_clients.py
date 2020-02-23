@@ -11,6 +11,7 @@ import pandas # install pandas by "pip install pandas", or install Anaconda dist
 # data set repository
 # https://archive.ics.uci.edu/ml/datasets/default+of+credit+card+clients
 
+# if the file is on your local device, change url_data_train into local file path, e.g., '‪D:\local_file.data'
 url_data_train = 'https://archive.ics.uci.edu/ml/machine-learning-databases/00350/default%20of%20credit%20card%20clients.xls'
 
 def download_file(url):
@@ -46,7 +47,7 @@ def download_file(url):
     return io.BytesIO(total)
 
 # download data from UCI Machine Learning Repository
-data_train = download_file(url_data_train)
+data_train = download_file(url_data_train) if url_data_train.startswith('http') else url_data_train
 
 # convert Excel file into pandas dataframe
 df_train = pandas.read_excel(data_train, header = 1, index_col = False)
